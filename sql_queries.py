@@ -111,7 +111,12 @@ INSERT INTO users (
          ) VALUES (
         %s, %s, %s, %s, %s
         )
-    ON CONFLICT DO NOTHING
+    ON CONFLICT (user_id) 
+    DO UPDATE SET 
+        first_name = EXCLUDED.first_name,
+        last_name = EXCLUDED.last_name,
+        gender = EXCLUDED.gender,
+        level = EXCLUDED.level
 ;
 """)
 
@@ -125,7 +130,12 @@ INSERT INTO songs (
     ) VALUES (
         %s, %s, %s, %s, %s
     )
-    ON CONFLICT DO NOTHING;
+    ON CONFLICT (song_id) 
+    DO UPDATE SET
+        title = EXCLUDED.title,
+        year = EXCLUDED.year,
+        duration = EXCLUDED.duration
+    ;
 """)
 
 artist_table_insert = ("""
@@ -138,7 +148,12 @@ INSERT INTO artists (
          ) VALUES (
         %s, %s, %s, %s, %s
         )
-    ON CONFLICT DO NOTHING
+    ON CONFLICT (artist_id) 
+    DO UPDATE SET 
+        name = EXCLUDED.name,
+        location = EXCLUDED.location,
+        latitude = EXCLUDED.latitude,
+        longitude = EXCLUDED.longitude
 ;
 """)
 

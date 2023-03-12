@@ -100,6 +100,10 @@ def process_data(cur, conn, filepath, func):
 
 
 def main():
+    """
+    Establishes connection to the local databasea and runs process_data for song and log data
+    Closes the database connection after the data pipeline is completed.
+    """
     conn = psycopg2.connect("host=127.0.0.1 dbname=sparkifydb user=student password=student")
     cur = conn.cursor()
 

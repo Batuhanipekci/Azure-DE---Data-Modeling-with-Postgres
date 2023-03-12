@@ -1,5 +1,5 @@
 # Data Modeling with Postgres
-### Udacity - Data Engineering with Azure Project 1
+### Udacity - Data Engineering with Azure - Project 1
 
 This project demonstrates an ETL pipeline which transforms extracted JSON files from a third party application (An imaginary music streaming service Sparklify) and loads them to a Postgres database. Song metadata and log data of song plays were ingested into a star schema which consists of songplays (fact table) and songs, users, artists, time (dimension tables).
 

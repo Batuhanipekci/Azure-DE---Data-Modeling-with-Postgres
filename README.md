@@ -3,6 +3,8 @@
 
 This project demonstrates an ETL pipeline which transforms extracted JSON files from a third party application (An imaginary music streaming service Sparklify) and loads them to a Postgres database. Song metadata and log data of song plays are ingested into a star schema which consists of songplays (fact table) and songs, users, artists, time (dimension tables).
 
+Upsert operations have been defined for the following tables in favor of keeping new entries; *users*, *songs*, and *artists*. In the event of conflicting primary keys, the features will replace the existing ones, however conflicts in the foreign key fields will throw an error. As a potential improvement of the project, these operations could be tracked using a trigger to a history table. Meanwhile, upsert operations are defined for *time* table in favor of existing entries, using the command "DO NOTHING". There is no need to update datetime-related fields in the event of receiving a duplicate timestamp, as these properties are quite material.
+
 
 ## Files
 - **run_db.sh**: A shell script containing the code for creating a Docker container for the database and a remove script if the container with the same name already exists.

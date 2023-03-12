@@ -6,6 +6,11 @@ from sql_queries import *
 
 
 def process_song_file(cur, filepath):
+    """
+    - Reads the song file given a filepath
+    - Takes subsets of the data for songs and artists tables
+    - Loads data into songs and artists tables by executing relevant sql scripts 
+    """
     # open song file
     df =  pd.read_json(filepath, typ='series')
 
@@ -19,6 +24,14 @@ def process_song_file(cur, filepath):
 
 
 def process_log_file(cur, filepath):
+    """
+    - Reads the log file given a filepath
+    - Filters the data by page column equals to NextSong
+    - Extracting date features by converting timestamp column to datetime object
+    - Loads data into time and users tables by executing relevant sql scripts
+    - Executes the song_select script to find songs and artists that are matching to the data
+    - Populates the songplays table iterately given the relevant sql script
+    """
     # open log file
     df = pd.read_json(filepath, lines=True)
 
@@ -57,11 +70,17 @@ def process_log_file(cur, filepath):
             songid, artistid = None, None
         
         # insert songplay record
-        songplay_data = (row.ts, row.sessionId, row.location, row.userAgent, row.userId, songid, artistid)
+        songplay_data = (row.sessionId, row.location, row.userAgent, row.userId, row.ts, songid, artistid)
         cur.execute(songplay_table_insert, songplay_data)
 
 
 def process_data(cur, conn, filepath, func):
+    """
+    - Collects all json files in all subdirectories given a filepath
+    - Calculates the number of files for logging purposes
+    - Executes a given function func iterating on the json file
+    - Commits results to the database iteratively
+    """
     # get all files matching extension from directory
     all_files = []
     for root, dirs, files in os.walk(filepath):
@@ -81,6 +100,10 @@ def process_data(cur, conn, filepath, func):
 
 
 def main():
+    """
+    Establishes connection to the local databasea and runs process_data for song and log data
+    Closes the database connection after the data pipeline is completed.
+    """
     conn = psycopg2.connect("host=127.0.0.1 dbname=sparkifydb user=student password=student")
     cur = conn.cursor()
 

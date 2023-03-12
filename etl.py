@@ -70,7 +70,7 @@ def process_log_file(cur, filepath):
             songid, artistid = None, None
         
         # insert songplay record
-        songplay_data = (row.ts, row.sessionId, row.location, row.userAgent, row.userId, songid, artistid)
+        songplay_data = (row.sessionId, row.location, row.userAgent, row.userId, row.ts, songid, artistid)
         cur.execute(songplay_table_insert, songplay_data)
 
 

@@ -81,7 +81,7 @@ INSERT INTO songplays (
     location,
     user_agent
     ) SELECT 
-        %s,
+        t.start_time,
         u.user_id,
         u.level,
         s.song_id,
@@ -94,6 +94,8 @@ INSERT INTO songplays (
     ON s.artist_id = a.artist_id
     LEFT JOIN users AS u
     ON u.user_id = %s
+    LEFT JOIN time AS t
+    ON t.start_time = %s
     WHERE s.song_id = %s
     AND a.artist_id = %s
 ;
